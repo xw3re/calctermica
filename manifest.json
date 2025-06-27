@@ -1,7 +1,7 @@
 {
   "name": "Calculadora de Carga Térmica",
-  "short_name": "Carga Térmica",
-  "start_url": "./index.html",
+  "short_name": "CargaTérmica",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4CAF50",
