@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Carga Térmica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    input, select, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    #resultado {
+      font-weight: bold;
+      font-size: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Carga Térmica</h1>
+
+  <h2>Recinto</h2>
+  <input id="largura" placeholder="Largura (m)">
+  <input id="comprimento" placeholder="Comprimento (m)">
+  <input id="altura" placeholder="Altura (m)">
+  <select id="laje">
+    <option value="com">Laje com proteção</option>
+    <option value="sem">Laje sem proteção</option>
+  </select>
+
+  <h2>Janelas</h2>
+  <input id="num_janelas" placeholder="Número de janelas">
+  <input id="largura_janela" placeholder="Largura da janela (m)">
+  <input id="altura_janela" placeholder="Altura da janela (m)">
+  <select id="cortina">
+    <option value="sim">Com cortina</option>
+    <option value="nao">Sem cortina</option>
+  </select>
+  <select id="sol">
+    <option value="manha">Sol da manhã</option>
+    <option value="tarde">Sol da tarde</option>
+  </select>
+
+  <h2>Pessoas</h2>
+  <input id="pessoas" placeholder="Quantidade de pessoas">
+
+  <h2>Portas</h2>
+  <input id="num_portas" placeholder="Número de portas">
+  <input id="largura_porta" placeholder="Largura da porta (m)">
+  <input id="altura_porta" placeholder="Altura da porta (m)">
+
+  <h2>Carga elétrica</h2>
+  <input id="carga" placeholder="Carga elétrica (Watts)">
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function calcular() {
+      try {
+        const v = id => parseFloat(document.getElementById(id).value.replace(',', '.')) || 0;
+        const s = id => document.getElementById(id).value;
+
+        const volume = v('largura') * v('comprimento') * v('altura');
+        const laje = s('laje') === 'com' ? 16 : 22.3;
+        const recinto_kcal = volume * laje;
+
+        const area_janelas = v('num_janelas') * v('largura_janela') * v('altura_janela');
+        const cortina = s('cortina'), sol = s('sol');
+        let fator_janela = 0;
+        if (cortina === 'sim' && sol === 'manha') fator_janela = 160;
+        else if (cortina === 'sim' && sol === 'tarde') fator_janela = 212;
+        else if (cortina === 'nao' && sol === 'manha') fator_janela = 222;
+        else if (cortina === 'nao' && sol === 'tarde') fator_janela = 410;
+        const janela_kcal = area_janelas * fator_janela;
+
+        const pessoas_kcal = v('pessoas') * 125;
+
+        const area_portas = v('num_portas') * v('largura_porta') * v('altura_porta');
+        const portas_kcal = area_portas * 125;
+
+        const carga_kcal = v('carga') * 0.9;
+
+        const total_kcal = recinto_kcal + janela_kcal + pessoas_kcal + portas_kcal + carga_kcal;
+        const total_btu = total_kcal * 4;
+
+        document.getElementById('resultado').innerText = `${total_kcal.toFixed(2)} kcal/h | ${total_btu.toFixed(2)} BTU/h`;
+
+      } catch (e) {
+        document.getElementById('resultado').innerText = 'Erro no cálculo: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
