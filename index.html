@@ -6,69 +6,128 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#4CAF50">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Carga Térmica</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
       padding: 20px;
+      color: #333;
     }
-    input, select, button {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      font-size: 16px;
+
+    .container {
+      max-width: 700px;
+      background: #fff;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
+
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+
     h2 {
       margin-top: 30px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
     }
-    #resultado {
+
+    input, select, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+      outline: none;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
       font-weight: bold;
-      font-size: 20px;
-      color: green;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 22px;
+      color: #4CAF50;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Calculadora de Carga Térmica</h1>
+  <div class="container">
+    <h1>Calculadora de Carga Térmica</h1>
 
-  <h2>Recinto</h2>
-  <input id="largura" placeholder="Largura (m)">
-  <input id="comprimento" placeholder="Comprimento (m)">
-  <input id="altura" placeholder="Altura (m)">
-  <select id="laje">
-    <option value="com">Laje com proteção</option>
-    <option value="sem">Laje sem proteção</option>
-  </select>
+    <h2>Recinto</h2>
+    <input id="largura" placeholder="Largura (m)">
+    <input id="comprimento" placeholder="Comprimento (m)">
+    <input id="altura" placeholder="Altura (m)">
+    <select id="laje">
+      <option value="com">Laje com proteção</option>
+      <option value="sem">Laje sem proteção</option>
+    </select>
 
-  <h2>Janelas</h2>
-  <input id="num_janelas" placeholder="Número de janelas">
-  <input id="largura_janela" placeholder="Largura da janela (m)">
-  <input id="altura_janela" placeholder="Altura da janela (m)">
-  <select id="cortina">
-    <option value="sim">Com cortina</option>
-    <option value="nao">Sem cortina</option>
-  </select>
-  <select id="sol">
-    <option value="manha">Sol da manhã</option>
-    <option value="tarde">Sol da tarde</option>
-  </select>
+    <h2>Janelas</h2>
+    <input id="num_janelas" placeholder="Número de janelas">
+    <input id="largura_janela" placeholder="Largura da janela (m)">
+    <input id="altura_janela" placeholder="Altura da janela (m)">
+    <select id="cortina">
+      <option value="sim">Com cortina</option>
+      <option value="nao">Sem cortina</option>
+    </select>
+    <select id="sol">
+      <option value="manha">Sol da manhã</option>
+      <option value="tarde">Sol da tarde</option>
+    </select>
 
-  <h2>Pessoas</h2>
-  <input id="pessoas" placeholder="Quantidade de pessoas">
+    <h2>Pessoas</h2>
+    <input id="pessoas" placeholder="Quantidade de pessoas">
 
-  <h2>Portas</h2>
-  <input id="num_portas" placeholder="Número de portas">
-  <input id="largura_porta" placeholder="Largura da porta (m)">
-  <input id="altura_porta" placeholder="Altura da porta (m)">
+    <h2>Portas</h2>
+    <input id="num_portas" placeholder="Número de portas">
+    <input id="largura_porta" placeholder="Largura da porta (m)">
+    <input id="altura_porta" placeholder="Altura da porta (m)">
 
-  <h2>Carga elétrica</h2>
-  <input id="carga" placeholder="Carga elétrica (Watts)">
+    <h2>Carga elétrica</h2>
+    <input id="carga" placeholder="Carga elétrica (Watts)">
 
-  <button onclick="calcular()">Calcular</button>
+    <button onclick="calcular()">Calcular</button>
 
-  <div id="resultado"></div>
+    <div id="resultado"></div>
+  </div>
 
   <script>
     function calcular() {
